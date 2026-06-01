@@ -30,8 +30,10 @@ jobs:
   post:
     runs-on: ubuntu-latest
     env:
-      # Scheduled runs publish; manual runs use the chosen input (default draft).
-      PUBLISH_MODE: ${{ github.event.inputs.publish_mode || 'publish' }}
+      # Draft-first: scheduled and manual runs both create drafts for review.
+      # To go fully live, change the fallback below from 'draft' to 'publish'
+      # (or run the workflow manually with publish_mode: publish).
+      PUBLISH_MODE: ${{ github.event.inputs.publish_mode || 'draft' }}
       SUBSTACK_PUBLICATION_URL: ${{ secrets.SUBSTACK_PUBLICATION_URL }}
       SUBSTACK_COOKIES: ${{ secrets.SUBSTACK_COOKIES }}
       SUBSTACK_EMAIL: ${{ secrets.SUBSTACK_EMAIL }}

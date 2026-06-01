@@ -67,8 +67,11 @@ Run the workflow manually first, in **draft** mode:
 
 GitHub → **Actions → Daily Substack Post → Run workflow** → `publish_mode:
 draft`. This generates a post and creates a **draft** in your Substack
-dashboard without publishing. Review it, then let the daily schedule take over
-(scheduled runs publish automatically).
+dashboard without publishing.
+
+**The pipeline ships in draft-first mode:** both scheduled and manual runs
+create drafts for you to review and publish. Once you're happy with the
+quality, flip to fully automatic publishing (see below).
 
 You can also dry-run the publisher locally:
 
@@ -83,9 +86,9 @@ python automation/publish_to_substack.py
 ## Operating notes
 
 - **Schedule:** edit the `cron` line in the workflow (`0 13 * * *` = 13:00 UTC).
-- **Safety switch:** to require manual approval instead of auto-publishing,
-  trigger runs with `publish_mode: draft`, or change the workflow `PUBLISH_MODE`
-  default to `'draft'`. The post is then created as a draft for you to publish.
+- **Going live:** the workflow defaults to `draft`. When you're ready for fully
+  automatic publishing, change the `PUBLISH_MODE` fallback in the workflow from
+  `'draft'` to `'publish'` (or run manually with `publish_mode: publish`).
 - **Token refresh:** the Substack session cookie expires every few weeks — when
   publishing starts failing on auth, regenerate `SUBSTACK_COOKIES`. The
   `CLAUDE_CODE_OAUTH_TOKEN` may also need periodic regeneration via

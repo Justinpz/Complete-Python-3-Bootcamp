@@ -30,14 +30,23 @@ oversimplify.
 5. **Bottom line** — 2–3 sentence takeaway.
 
 ## Citations
-- Reference real, checkable literature: name the finding, the type of study
-  (e.g. "a 2019 randomized trial in recreational athletes"), and what it found.
-- **Never fabricate a citation, DOI, author, or statistic.** If you are not
-  confident a specific study exists, describe the state of evidence in general
-  terms instead of inventing a reference. An honest "the evidence here is
-  limited and mostly from small trials" is always better than a fake citation.
+- **Cite specific studies.** Anchor key claims to a named, checkable reference:
+  first author + year, the journal or a systematic review/RCT it comes from,
+  the population and rough sample size, and what it found
+  (e.g. "Kongsgaard et al., 2009, *Scand J Med Sci Sports* — a randomized trial
+  in patellar tendinopathy patients found..."). Vague "studies show" is not
+  acceptable for the central claims.
+- **Never fabricate a citation, DOI, author, year, journal, or statistic.**
+  This is the one inviolable rule. If you cannot confidently name a real study
+  for a point, either (a) drop that point, or (b) state the evidence generally
+  and explicitly flag it as such ("the evidence here is limited and mostly from
+  small trials") — never invent a reference to fill the gap. A weaker but honest
+  claim always beats a fake citation, especially since posts publish from drafts
+  you review.
 - Prefer systematic reviews and RCTs over mechanistic or animal studies, and
   say which tier of evidence a claim rests on.
+- Where natural, add a short "References" list at the end with the studies named
+  in the post so readers can verify them.
 
 ## Hard rules
 - No medical advice framing — this is education, not diagnosis or treatment.
