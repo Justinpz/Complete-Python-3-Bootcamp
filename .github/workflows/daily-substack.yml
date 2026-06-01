@@ -1,0 +1,68 @@
+name: Daily Substack Post
+
+# Writes, self-reviews, and publishes one evidence-based recovery post per day.
+# Generation runs through Claude Code authenticated with a subscription OAuth
+# token (CLAUDE_CODE_OAUTH_TOKEN) — it draws on your Claude subscription quota,
+# not pay-per-token API credits. Do NOT also set ANTHROPIC_API_KEY: it takes
+# precedence and would bill per token.
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # 13:00 UTC daily — adjust to taste
+  workflow_dispatch:
+    inputs:
+      publish_mode:
+        description: "publish or draft (manual runs default to draft for safety)"
+        type: choice
+        default: "draft"
+        options:
+          - draft
+          - publish
+
+permissions:
+  contents: write   # to commit the updated post log / archive
+
+concurrency:
+  group: daily-substack
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    env:
+      # Scheduled runs publish; manual runs use the chosen input (default draft).
+      PUBLISH_MODE: ${{ github.event.inputs.publish_mode || 'publish' }}
+      SUBSTACK_PUBLICATION_URL: ${{ secrets.SUBSTACK_PUBLICATION_URL }}
+      SUBSTACK_COOKIES: ${{ secrets.SUBSTACK_COOKIES }}
+      SUBSTACK_EMAIL: ${{ secrets.SUBSTACK_EMAIL }}
+      SUBSTACK_PASSWORD: ${{ secrets.SUBSTACK_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r automation/requirements.txt
+
+      - name: Generate, review, and publish post
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: "Read automation/prompt.md and execute it fully, end to end."
+          claude_args: |
+            --allowedTools Bash,Read,Write,Edit,Glob,Grep
+            --permission-mode acceptEdits
+
+      - name: Commit log and archive
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add automation/post_log.json automation/archive || true
+          if git diff --cached --quiet; then
+            echo "No log/archive changes to commit."
+          else
+            git commit -m "Daily post: ${{ github.run_id }}"
+            git push
+          fi

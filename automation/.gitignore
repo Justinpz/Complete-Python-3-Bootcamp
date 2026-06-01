@@ -1,0 +1,4 @@
+# Per-run scratch output (regenerated every run). Archived copies live in archive/.
+out/
+__pycache__/
+*.pyc
