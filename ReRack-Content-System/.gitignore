@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 *.pyo
+
+# Exported render binaries (source of truth is the Higgsfield CDN + asset tracker)
+_exports/
