@@ -38,9 +38,9 @@
 ## Day 2 — Tue 2026-06-09
 **Pillar:** The Work
 **Content Type:** Reel
-**Video Prompt:** REEL-01 (reel-prompts.md)
+**Video Prompt:** REEL-01 (reel-video-prompts.md)
 **Caption:** CAP-002 (caption-pack-001.md)
-**Reel Hook:** HOOK-001 (reel-hooks.md)
+**Reel Hook:** HOOK-001 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -62,9 +62,9 @@
 ## Day 4 — Thu 2026-06-11
 **Pillar:** The Standard
 **Content Type:** Reel
-**Video Prompt:** REEL-02 (reel-prompts.md)
+**Video Prompt:** REEL-02 (reel-video-prompts.md)
 **Caption:** CAP-004 (caption-pack-001.md)
-**Reel Hook:** HOOK-002 (reel-hooks.md)
+**Reel Hook:** HOOK-002 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -86,9 +86,9 @@
 ## Day 6 — Sat 2026-06-13
 **Pillar:** The Standard
 **Content Type:** Reel
-**Video Prompt:** REEL-03 (reel-prompts.md)
+**Video Prompt:** REEL-03 (reel-video-prompts.md)
 **Caption:** CAP-006 (caption-pack-001.md)
-**Reel Hook:** HOOK-003 (reel-hooks.md)
+**Reel Hook:** HOOK-003 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -132,9 +132,9 @@
 ## Day 10 — Wed 2026-06-17
 **Pillar:** The Work
 **Content Type:** Reel
-**Video Prompt:** REEL-04 (reel-prompts.md)
+**Video Prompt:** REEL-04 (reel-video-prompts.md)
 **Caption:** CAP-010 (caption-pack-001.md)
-**Reel Hook:** HOOK-004 (reel-hooks.md)
+**Reel Hook:** HOOK-004 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -156,9 +156,9 @@
 ## Day 12 — Fri 2026-06-19
 **Pillar:** The Standard
 **Content Type:** Reel
-**Video Prompt:** REEL-05 (reel-prompts.md)
+**Video Prompt:** REEL-05 (reel-video-prompts.md)
 **Caption:** CAP-012 (caption-pack-001.md)
-**Reel Hook:** HOOK-005 (reel-hooks.md)
+**Reel Hook:** HOOK-005 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -180,9 +180,9 @@
 ## Day 14 — Sun 2026-06-21
 **Pillar:** The Work
 **Content Type:** Reel
-**Video Prompt:** REEL-06 (reel-prompts.md)
+**Video Prompt:** REEL-06 (reel-video-prompts.md)
 **Caption:** CAP-014 (caption-pack-001.md)
-**Reel Hook:** HOOK-006 (reel-hooks.md)
+**Reel Hook:** HOOK-006 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -215,9 +215,9 @@
 ## Day 17 — Wed 2026-06-24
 **Pillar:** The Work
 **Content Type:** Reel
-**Video Prompt:** REEL-07 (reel-prompts.md)
+**Video Prompt:** REEL-07 (reel-video-prompts.md)
 **Caption:** CAP-017 (caption-pack-001.md)
-**Reel Hook:** HOOK-007 (reel-hooks.md)
+**Reel Hook:** HOOK-007 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -239,9 +239,9 @@
 ## Day 19 — Fri 2026-06-26
 **Pillar:** The Standard
 **Content Type:** Reel
-**Video Prompt:** REEL-08 (reel-prompts.md)
+**Video Prompt:** REEL-08 (reel-video-prompts.md)
 **Caption:** CAP-019 (caption-pack-001.md)
-**Reel Hook:** HOOK-008 (reel-hooks.md)
+**Reel Hook:** HOOK-008 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -263,9 +263,9 @@
 ## Day 21 — Sun 2026-06-28
 **Pillar:** The Work
 **Content Type:** Reel
-**Video Prompt:** REEL-09 (reel-prompts.md)
+**Video Prompt:** REEL-09 (reel-video-prompts.md)
 **Caption:** CAP-021 (caption-pack-001.md)
-**Reel Hook:** HOOK-009 (reel-hooks.md)
+**Reel Hook:** HOOK-009 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -276,9 +276,9 @@
 ## Day 22 — Mon 2026-06-29
 **Pillar:** The Standard
 **Content Type:** Reel
-**Video Prompt:** REEL-10 (reel-prompts.md)
+**Video Prompt:** REEL-10 (reel-video-prompts.md)
 **Caption:** CAP-022 (caption-pack-001.md)
-**Reel Hook:** HOOK-010 (reel-hooks.md)
+**Reel Hook:** HOOK-010 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -300,9 +300,9 @@
 ## Day 24 — Wed 2026-07-01
 **Pillar:** The Work
 **Content Type:** Reel
-**Video Prompt:** REEL-01 (reel-prompts.md)
+**Video Prompt:** REEL-01 (reel-video-prompts.md)
 **Caption:** CAP-024 (caption-pack-001.md)
-**Reel Hook:** HOOK-011 (reel-hooks.md)
+**Reel Hook:** HOOK-011 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
@@ -335,9 +335,9 @@
 ## Day 27 — Sat 2026-07-04
 **Pillar:** The Standard
 **Content Type:** Reel
-**Video Prompt:** REEL-02 (reel-prompts.md)
+**Video Prompt:** REEL-02 (reel-video-prompts.md)
 **Caption:** CAP-027 (caption-pack-001.md)
-**Reel Hook:** HOOK-012 (reel-hooks.md)
+**Reel Hook:** HOOK-012 (reel-hooks-pack-001.md)
 **Duration:** 10 sec
 **Post Time:** 8:00 PM EST
 **Reel?** Yes
