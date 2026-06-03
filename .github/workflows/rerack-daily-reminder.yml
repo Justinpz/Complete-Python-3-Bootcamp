@@ -1,0 +1,54 @@
+name: ReRack Daily Post Reminder
+
+# Sends a Telegram message every day at 04:00 Europe/Berlin with that day's
+# post from the ReRack 30-day content calendar.
+#
+# GitHub cron is UTC and has no DST awareness, so we trigger at BOTH 02:00 and
+# 03:00 UTC and then gate the real work to the single run where Berlin local
+# time is 04:00. That hits 04:00 Berlin year-round:
+#   summer (CEST, UTC+2): 02:00 UTC = 04:00 Berlin  ✓   03:00 UTC = 05:00  ✗
+#   winter (CET,  UTC+1): 02:00 UTC = 03:00 Berlin  ✗   03:00 UTC = 04:00  ✓
+#
+# One-time setup (Settings → Secrets and variables → Actions):
+#   TELEGRAM_BOT_TOKEN  — from @BotFather
+#   TELEGRAM_CHAT_ID    — your chat id (message @userinfobot, or use getUpdates)
+# Also enable Actions on the repo, and merge this workflow to the DEFAULT branch
+# (scheduled workflows only run from the default branch).
+
+on:
+  schedule:
+    - cron: "0 2,3 * * *"   # 02:00 and 03:00 UTC daily; gated to 04:00 Berlin below
+  workflow_dispatch:        # manual "Run workflow" button for testing
+    inputs:
+      force:
+        description: "Send regardless of the 04:00 Berlin time gate"
+        type: boolean
+        default: true
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Gate to 04:00 Europe/Berlin (skip otherwise)
+        id: gate
+        run: |
+          BERLIN_HOUR=$(TZ=Europe/Berlin date +%H)
+          echo "Berlin hour is ${BERLIN_HOUR}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.force }}" = "true" ]; then
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          elif [ "$BERLIN_HOUR" = "04" ]; then
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+            echo "Not 04:00 in Berlin — skipping this run."
+          fi
+
+      - name: Send the daily reminder
+        if: steps.gate.outputs.proceed == 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python3 ReRack-Content-System/7-Scripts-and-Tools/daily-reminder.py --tz Europe/Berlin
