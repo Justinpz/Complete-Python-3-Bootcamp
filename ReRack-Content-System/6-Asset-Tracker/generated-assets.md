@@ -20,8 +20,12 @@
 
 | Asset ID | Date Generated | Pillar | Type | Prompt Ref | Soul | Status | Posted? | Notes |
 |---|---|---|---|---|---|---|---|---|
-| RR-20260608-001 | 2026-06-08 | The Standard | Image | STD-04 | n/a | Draft | No | _example row — replace_ |
-| | | | | | | | | |
+| RR-20260603-001 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-01 | n/a | Draft | No | Concrete wall, golden shaft. Higgsfield nano_banana_pro · job 3645cc3f · pair caption CAP-003 |
+| RR-20260603-002 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-02 | n/a | Draft | No | Empty light pool on rubber floor. job bc1a3b63 · pair CAP-006 |
+| RR-20260603-003 | 2026-06-03 | The Standard | Image (9:16, 2k) | STD-03 | n/a | Draft | No | Brutalist stairwell, Stories format. job bcfa1395 · pair CAP-007 |
+| RR-20260603-004 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-04 | ATLAS (small) | Draft | No | Man dwarfed by concrete hall. job 1812e851 · pair CAP-001 |
+| RR-20260603-005 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-05 | n/a | Draft | No | Chalk dust in tungsten beam. job e7e5ffa2 · pair CAP-005 |
+| RR-20260603-006 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-06 | n/a | Draft | No | Pre-dawn bench, blue hour. job c27e8232 · pair CAP-002 |
 
 <!-- Append new rows above this line. Keep newest at top of the data block if you prefer reverse-chronological. -->
 
