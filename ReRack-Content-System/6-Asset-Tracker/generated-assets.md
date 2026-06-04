@@ -21,7 +21,7 @@
 | Asset ID | Date Generated | Pillar | Type | Prompt Ref | Soul | Status | Posted? | Notes |
 |---|---|---|---|---|---|---|---|---|
 | RR-20260603-001 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-01 | n/a | Posted | Yes (2026-06-03) | Concrete wall, golden shaft. Higgsfield nano_banana_pro · clean job 3645cc3f · quote-overlay job e48325a1 (CAP-003 hero line burned in) · LIVE: instagram.com/p/DZIiXIxCjTg/ |
-| RR-20260603-002 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-02 | n/a | Draft | No | Empty light pool on rubber floor. job bc1a3b63 · pair CAP-006 |
+| RR-20260603-002 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-02 | n/a | Approved | No | Light pool on rubber floor. clean job bc1a3b63 · quote-overlay job 547e08b1 ("Standards beat feelings." / CAP-006 burned in) · exports STD-02_clean.png / STD-02_quote.png · ready to post |
 | RR-20260603-003 | 2026-06-03 | The Standard | Image (9:16, 2k) | STD-03 | n/a | Draft | No | Brutalist stairwell, Stories format. job bcfa1395 · pair CAP-007 |
 | RR-20260603-004 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-04 | ATLAS (small) | Draft | No | Man dwarfed by concrete hall. job 1812e851 · pair CAP-001 |
 | RR-20260603-005 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-05 | n/a | Draft | No | Chalk dust in tungsten beam. job e7e5ffa2 · pair CAP-005 |
