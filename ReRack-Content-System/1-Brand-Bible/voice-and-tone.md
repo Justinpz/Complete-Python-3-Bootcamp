@@ -80,7 +80,7 @@ Pair with a 7–15s cinematic clip.
 
 - **Punctuation:** periods and the occasional em dash. No exclamation points. No ellipses for drama.
 - **Capitalization:** sentence case in body; `FORGED DAILY.` and SKU labels in caps.
-- **Hashtags:** optional, max 3, lowercase, on their own line, brand/relevant only (e.g. `#forgeddaily #rerack #cycle001`).
+- **Hashtags (traction policy):** 3 brand tags (`#forgeddaily #rerack #cycle001`) **+ 2 rotating high-traffic/trending tags** relevant to discipline / men's fitness / tactical-minimal apparel = **5 total**, lowercase, own line. Rotate the 2 trending tags every post (never the same block twice in a row). Best placed in the **first comment** to keep the caption clean.
 - **Emojis:** none. Ever.
 - **CTAs:** rare and flat. "Cycle 001. Link in bio." Not "RUN don't walk!!"
 
