@@ -24,8 +24,8 @@
 | RR-20260603-002 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-02 | n/a | Approved | No | Light pool on rubber floor. clean job bc1a3b63 · quote-overlay job 547e08b1 ("Standards beat feelings." / CAP-006 burned in) · exports STD-02_clean.png / STD-02_quote.png · ready to post |
 | RR-20260603-003 | 2026-06-03 | The Standard | Image (9:16, 2k) | STD-03 | n/a | Approved | No | Brutalist stairwell, STORY format. clean job bcfa1395 · quote-overlay job 9d4138ad ("Become hard to kill." / CAP-007 burned in) · exports STD-03_clean.png / STD-03_quote.png · post as a Story |
 | RR-20260603-004 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-04 | ATLAS (small) | Approved | No | Lone figure in concrete hall. clean job 1812e851 · quote-overlay job f37c4b90 (CAP-001 "You don't rise to your goals. You fall to your standards." burned in upper-left; first overlay attempt 152b2b45 duplicated a line, re-rolled) · exports STD-04_clean.png / STD-04_quote.png · ready to post |
-| RR-20260603-005 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-05 | n/a | Draft | No | Chalk dust in tungsten beam. job e7e5ffa2 · pair CAP-005 |
-| RR-20260603-006 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-06 | n/a | Draft | No | Pre-dawn bench, blue hour. job c27e8232 · pair CAP-002 |
+| RR-20260603-005 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-05 | n/a | Approved | No | Chalk dust in tungsten beam. clean job e7e5ffa2 · quote-overlay job 7925f209 (CAP-005 "Confidence is a receipt." burned in left void) · exports STD-05_clean.png / STD-05_quote.png · ready to post |
+| RR-20260603-006 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-06 | n/a | Approved | No | Pre-dawn bench, blue hour. clean job c27e8232 · quote-overlay job 7f855fb3 (CAP-002 "Identity is forged, not felt." burned in upper-left) · exports STD-06_clean.png / STD-06_quote.png · ready to post |
 
 <!-- Append new rows above this line. Keep newest at top of the data block if you prefer reverse-chronological. -->
 
