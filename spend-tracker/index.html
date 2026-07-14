@@ -449,14 +449,17 @@ function renderDash(){
   const spent=catSpentFor(ymStr);
   const totalSpent=Object.values(spent).reduce((a,b)=>a+b,0);
   const totalCap=cats.reduce((a,c)=>a+(c.capEUR>0?c.capEUR:0),0);
-  const overall=paceStatus(totalSpent,totalCap,day,dim);
+  /* status vs caps uses capped-category spending only — uncapped categories
+     (notably Debt Payment) would otherwise force a permanent red */
+  const cappedSpent=cats.reduce((a,c)=>a+(c.capEUR>0?(spent[c.id]||0):0),0);
+  const overall=paceStatus(cappedSpent,totalCap,day,dim);
 
   /* month header */
   let html=`<div class="card">
     <div class="card-title"><span>1.1 Month Status</span>${overall?`<span class="badge ${overall}">${statusLabel(overall)}</span>`:'<span class="badge n">NO CAPS</span>'}</div>
     <div class="stencil" style="font-size:1.05rem;margin-bottom:4px">${fmtMonth(ymStr)}</div>
-    <div class="big mono">€${money(totalSpent)} <span class="dim">/ ${totalCap>0?'€'+money(totalCap)+' CAP':'NO CAPS SET'}</span></div>
-    <div class="small dim" style="margin-top:4px">DAY ${day}/${dim} · RATE 1€ = $${getRate()}</div>
+    <div class="big mono">€${money(totalCap>0?cappedSpent:totalSpent)} <span class="dim">/ ${totalCap>0?'€'+money(totalCap)+' CAP':'NO CAPS SET'}</span></div>
+    <div class="small dim" style="margin-top:4px">ALL SPENDING €${money(totalSpent)} · DAY ${day}/${dim} · RATE 1€ = $${getRate()}</div>
   </div>`;
 
   /* category bars */
