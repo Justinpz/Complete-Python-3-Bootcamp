@@ -180,6 +180,16 @@ img.receipt{max-width:100%;border:2px solid var(--ink)}
 .q-block .q{font-size:.8rem;font-weight:600;margin-bottom:8px}
 .split-row{border:1px dashed var(--ink);padding:8px;margin-bottom:8px}
 hr.sep{border:none;border-top:2px solid var(--ink);margin:12px 0}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-h{font-family:'Oswald',sans-serif;font-size:.6rem;font-weight:600;text-align:center;letter-spacing:.08em;color:var(--dim);padding:2px 0}
+.cal-d{border:1px solid var(--ink);background:#fff;min-height:46px;padding:2px 3px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}
+.cal-d.today{outline:2px solid var(--ink);background:var(--paper);box-shadow:2px 2px 0 var(--ink)}
+.cal-num{font-size:.6rem;font-weight:600}
+.cal-amt{font-size:.55rem;color:var(--sage-d);font-weight:600;line-height:1.1;word-break:break-all}
+.cal-mk{font-size:.55rem;line-height:1;min-height:8px}
+.cal-nav{display:flex;align-items:center;gap:8px}
+.cal-nav button{min-height:32px;min-width:36px;padding:2px 8px;font-size:.7rem;box-shadow:2px 2px 0 var(--ink)}
 </style>
 </head>
 <body>
@@ -517,11 +527,20 @@ function renderDash(){
   svg+=`</svg>`;
   html+=`<div class="card"><div class="card-title"><span>1.5 7-Day Spend</span><span class="mono small">MAX €${money(mx===1&&days.every(d=>d.tot===0)?0:mx)}</span></div>${svg}</div>`;
 
+  /* calendar */
+  html+=`<div class="card"><div class="card-title"><span>1.6 Calendar</span>
+    <span class="cal-nav"><button class="btn sm" onclick="calShift(-1)">◀</button>
+    <span class="mono small" style="font-weight:600">${fmtMonShort(calYM)}</span>
+    <button class="btn sm" onclick="calShift(1)">▶</button></span></div>
+    ${calendarHTML()}
+    <div class="hint">TAP A DAY FOR ITS ENTRIES. ● BILL DUE (RED = OVERDUE, GREEN = PAID) · $ PAYDAY</div>
+  </div>`;
+
   /* month-end scorecard */
   const hist=getHistory();
   const past=Object.keys(hist).sort().reverse().slice(0,3);
   if(past.length){
-    html+=`<div class="card"><div class="card-title"><span>1.6 Month-End Scorecard</span></div>`;
+    html+=`<div class="card"><div class="card-title"><span>1.7 Month-End Scorecard</span></div>`;
     past.forEach(m=>{
       const h=hist[m];
       const passed=h.results.filter(r=>r.pass).length;
@@ -534,6 +553,66 @@ function renderDash(){
     html+=`</div>`;
   }
   $('#view-dash').innerHTML=html;
+}
+
+/* --- calendar (DASH §1.6) --- */
+let calYM=curYM();
+function calShift(delta){
+  const [y,m]=calYM.split('-').map(Number);
+  const nd=new Date(y,m-1+delta,1);
+  calYM=nd.getFullYear()+'-'+String(nd.getMonth()+1).padStart(2,'0');
+  renderDash();
+}
+function calendarHTML(){
+  const ymStr=calYM;
+  const [y,m]=ymStr.split('-').map(Number);
+  const dim=daysInMonth(ymStr);
+  const offset=(new Date(y,m-1,1).getDay()+6)%7; /* Monday-first */
+  const spendByDay={};
+  monthTx(ymStr).forEach(t=>{const d=+t.date.slice(8,10);spendByDay[d]=(spendByDay[d]||0)+toEUR(t.amount,t.currency);});
+  const billsByDay={};
+  billOccurrences(ymStr).forEach(o=>{const d=+o.dueDate.slice(8,10);(billsByDay[d]=billsByDay[d]||[]).push(o);});
+  const paydaySet=new Set(getPaydays().filter(p=>p.slice(0,7)===ymStr).map(p=>+p.slice(8,10)));
+  const today=todayISO();
+  let html=`<div class="cal">${['M','T','W','T','F','S','S'].map(d=>`<div class="cal-h">${d}</div>`).join('')}`;
+  for(let i=0;i<offset;i++) html+='<div></div>';
+  for(let d=1;d<=dim;d++){
+    const iso=ymStr+'-'+String(d).padStart(2,'0');
+    const sp=spendByDay[d]||0;
+    const bd=billsByDay[d]||[];
+    const overdue=bd.some(o=>o.overdue);
+    const allPaid=bd.length>0&&bd.every(o=>o.confirmed);
+    const spLbl=sp<=0?'':'€'+(sp>=100?String(Math.round(sp)):money(sp).replace(/\.00$/,''));
+    html+=`<div class="cal-d${iso===today?' today':''}" onclick="dayDetail('${iso}')">
+      <div class="cal-num">${d}</div>
+      ${spLbl?`<div class="cal-amt">${spLbl}</div>`:''}
+      <div class="cal-mk">${bd.length?`<span class="${overdue?'txt-r':allPaid?'txt-g':'txt-a'}">●</span>`:''}${paydaySet.has(d)?'<span class="txt-g">$</span>':''}</div>
+    </div>`;
+  }
+  html+='</div>';
+  return html;
+}
+function dayDetail(iso){
+  const txs=getTx().filter(t=>t.date===iso);
+  const occ=billOccurrences(iso.slice(0,7)).filter(o=>o.dueDate===iso);
+  const payday=getPaydays().includes(iso);
+  const total=txs.reduce((a,t)=>a+toEUR(t.amount,t.currency),0);
+  let html=`<div class="card-title"><span>${fmtDay(iso)} ${iso.slice(0,4)}</span><span class="mono small">€${money(total)}</span></div>`;
+  if(payday) html+=`<div class="small txt-g" style="font-weight:600;margin-bottom:6px">PAYDAY — ATTACK $${money(getAttack().amountUSD)} DUE</div>`;
+  occ.forEach(o=>{
+    html+=`<div class="small ${o.overdue?'txt-r':'dim'}" style="margin-bottom:4px;font-weight:${o.overdue?'600':'400'}">BILL ${o.confirmed?'PAID ✓':'DUE'}: ${esc(o.bill.name)} · ${fmtAmt(o.bill.amount,o.bill.currency)}${o.overdue?' — OVERDUE':''}</div>`;
+  });
+  if(txs.length===0) html+=`<div class="small dim" style="margin-top:8px">NO ENTRIES THIS DAY.</div>`;
+  txs.forEach(t=>{
+    const c=catById(t.categoryId);
+    html+=`<div class="tx" onclick="closeModal();editTx('${t.id}')">
+      <div><div class="l1">${esc(t.merchant||(c?c.name:'ENTRY'))} ${t.receiptImageId?'📷':''}</div>
+      <div class="l2">${esc(c?c.name:'UNCATEGORIZED')} · ${t.source.toUpperCase()}</div></div>
+      <div class="amt mono">${fmtAmt(t.amount,t.currency)}</div>
+    </div>`;
+  });
+  html+=`<button class="btn block" style="margin-top:12px" onclick="closeModal()">CLOSE</button>`;
+  openModal(html);
 }
 
 /* ============================================================
@@ -984,6 +1063,37 @@ function renderBills(){
     </div>`;
   });
   html+=`<div class="hint">Debt minimums are pre-loaded in the DEBT tab and are confirmed there — keep them out of this roster to avoid double-counting.</div></div>`;
+
+  /* paid bills log — confirmed bill payments, last 6 months */
+  const win=[];
+  const now=new Date();
+  for(let i=0;i<6;i++){
+    const t=new Date(now.getFullYear(),now.getMonth()-i,1);
+    win.push(t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0'));
+  }
+  const groups={};
+  getTx().filter(t=>t.source==='bill').forEach(t=>{
+    const mKey=t.billMonth||t.date.slice(0,7);
+    if(win.includes(mKey)) (groups[mKey]=groups[mKey]||[]).push(t);
+  });
+  html+=`<div class="card"><div class="card-title"><span>4.3 Paid Bills Log</span><span class="small dim">LAST 6 MONTHS</span></div>`;
+  const gKeys=win.filter(mKey=>groups[mKey]);
+  if(gKeys.length===0) html+=`<div class="small dim">NO CONFIRMED BILL PAYMENTS IN THE LAST 6 MONTHS.</div>`;
+  gKeys.forEach(mKey=>{
+    const rows=groups[mKey].sort((a,b)=>a.date<b.date?1:-1);
+    const totEUR=rows.reduce((a,t)=>a+toEUR(t.amount,t.currency),0);
+    html+=`<div class="lrow" style="min-height:32px;border-bottom:2px solid var(--ink)">
+      <div class="stencil small" style="font-weight:600">${fmtMonShort(mKey)}</div>
+      <div class="mono small dim">${rows.length} PAID · €${money(totEUR)}</div></div>`;
+    rows.forEach(t=>{
+      html+=`<div class="lrow" style="min-height:38px" onclick="editTx('${t.id}')">
+        <div><div style="font-size:.8rem;font-weight:600">${esc(t.merchant||'BILL')}</div>
+        <div class="small dim">PAID ${fmtDay(t.date)}</div></div>
+        <div class="mono" style="font-weight:600">${fmtAmt(t.amount,t.currency)}</div>
+      </div>`;
+    });
+  });
+  html+=`</div>`;
   $('#view-bills').innerHTML=html;
 }
 function confirmBill(billId){
