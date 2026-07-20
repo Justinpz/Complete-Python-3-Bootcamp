@@ -2,6 +2,7 @@
 // first, then chrono-node handles concrete dates/times on the remainder.
 import * as chrono from 'chrono-node';
 import { keyFromDate, addDays, weekdayOf, parts, clampedKey, pad2 } from './dates.js';
+import { nextOccurrence } from './recurrence.js';
 
 const WEEKDAY_NUM = {
   sunday: 0, sun: 0,
@@ -18,7 +19,9 @@ const WD =
   '(?:sunday|monday|tuesday|wednesday|thursday|friday|saturday|tues|thurs|thur|sun|mon|tue|wed|thu|fri|sat)';
 
 function makeRule(freq, bang, { interval = 1, byDay = null, byMonthDay = null } = {}) {
-  return { freq, interval, byDay, byMonthDay, fromCompletion: !!bang };
+  // 'every 0 days' would otherwise reach the engine as a zero step
+  const safe = Math.max(1, Math.round(Number(interval)) || 1);
+  return { freq, interval: safe, byDay, byMonthDay, fromCompletion: !!bang };
 }
 
 // Ordered most-specific-first; the first regex that matches wins.
@@ -215,7 +218,13 @@ export function parseWhen(text, { refDate = new Date() } = {}) {
       const hasExplicitDate =
         result.start.isCertain('day') || result.start.isCertain('weekday');
       const hasTime = result.start.isCertain('hour');
-      if (hasExplicitDate) date = keyFromDate(result.start.date());
+      if (hasExplicitDate) {
+        date = keyFromDate(result.start.date());
+        // A past 'starting jul 1' fixes the cadence but must not create the
+        // task already overdue: advance onto the first occurrence >= today.
+        // (Re-anchoring at the advanced date preserves cadence parity.)
+        if (date < todayK) date = nextOccurrence(recurrence, date, addDays(todayK, -1));
+      }
       if (hasTime) time = timeFrom(result);
       if (hasExplicitDate || hasTime) rawSpans.push(span);
     } else {

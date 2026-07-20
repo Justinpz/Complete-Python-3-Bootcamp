@@ -3,7 +3,7 @@ import { id } from '../lib/id.js';
 import { todayKey, addDays, maxKey } from '../lib/dates.js';
 import { groupKeyOf, insertAt, ordersFromArray } from '../lib/order.js';
 import { nextOccurrence } from '../lib/recurrence.js';
-import { completionAward, applyXp, bumpStreak } from '../lib/xp.js';
+import { completionAward, applyXp, bumpStreak, reconcileStreak } from '../lib/xp.js';
 import { loadState, stateFromDoc, migrate, ENTITY_COLORS, INBOX_ID } from './persistence.js';
 
 // Streaks are recomputed from the per-day history after an undo — the day
@@ -20,7 +20,7 @@ function recomputeStreak(days, goal, today, best) {
     current += 1;
     d = addDays(d, -1);
   }
-  return { current, best, lastGoalDay: start };
+  return { current, best: Math.max(best, current), lastGoalDay: start };
 }
 
 function descendantsOf(tasks, rootId) {
@@ -117,6 +117,10 @@ export const useStore = create((set, get) => ({
       completedAt: null,
       createdAt: new Date().toISOString(),
     };
+    // A section from another project would make the task unreachable in every view
+    if (task.sectionId && s.sections[task.sectionId]?.projectId !== task.projectId) {
+      task.sectionId = null;
+    }
     task.order = nextOrderIn(s.tasks, (t) => !t.completed && groupKeyOf(t) === groupKeyOf(task));
     set({ tasks: { ...s.tasks, [task.id]: task } });
     return task.id;
@@ -154,6 +158,18 @@ export const useStore = create((set, get) => ({
       parentId: target.parentId !== undefined ? target.parentId : task.parentId,
     };
     if (group.parentId === taskId) return;
+    // Subtasks always live in their parent's project/section — a diverging
+    // sectionId would split the sibling group into an invisible bucket.
+    if (group.parentId) {
+      const parent = s.tasks[group.parentId];
+      if (parent) {
+        group.projectId = parent.projectId;
+        group.sectionId = parent.sectionId;
+      }
+    }
+    if (group.sectionId && s.sections[group.sectionId]?.projectId !== group.projectId) {
+      group.sectionId = null;
+    }
     const ids = groupIds(s.tasks, group, taskId);
     const index = toIndex === null ? ids.length : toIndex;
     let tasks = withOrders(s.tasks, insertAt(ids, taskId, index));
@@ -209,6 +225,7 @@ export const useStore = create((set, get) => ({
     };
 
     let updated;
+    const cascade = {};
     if (recurring) {
       const rule = task.due.recurrence;
       // 'every!' re-anchors at the completion day; plain rules stay on their
@@ -219,10 +236,18 @@ export const useStore = create((set, get) => ({
       updated = { ...task, due: { ...task.due, date: nextDate, anchor } };
     } else {
       updated = { ...task, completed: true, completedAt: now };
+      // Active subtasks would otherwise be stranded: still active in the
+      // store but unreachable in every view once the parent row disappears.
+      // XP is awarded for the parent only; undo restores the whole subtree.
+      const stranded = descendantsOf(s.tasks, taskId).filter((did) => !s.tasks[did].completed);
+      entry.cascadedTaskIds = stranded;
+      for (const did of stranded) {
+        cascade[did] = { ...s.tasks[did], completed: true, completedAt: now };
+      }
     }
 
     set({
-      tasks: { ...s.tasks, [taskId]: updated },
+      tasks: { ...s.tasks, ...cascade, [taskId]: updated },
       completionLog: [...s.completionLog, entry],
       game: { ...s.game, xp: applied.lifetimeXp, streak, days: { ...s.game.days, [today]: day } },
       levelUp: applied.leveledUp ? { level: applied.newLevel } : s.levelUp,
@@ -232,8 +257,9 @@ export const useStore = create((set, get) => ({
 
   undoCompletion(entryId) {
     const s = get();
-    const entry = s.completionLog.find((e) => e.id === entryId);
-    if (!entry) return;
+    const entryIndex = s.completionLog.findIndex((e) => e.id === entryId);
+    if (entryIndex === -1) return;
+    const entry = s.completionLog[entryIndex];
     const applied = applyXp(s.game.xp, -entry.xp);
     const days = { ...s.game.days };
     const stats = days[entry.day];
@@ -249,14 +275,35 @@ export const useStore = create((set, get) => ({
 
     const tasks = { ...s.tasks };
     const task = tasks[entry.taskId];
+    let completionLog = s.completionLog.filter((e) => e.id !== entryId);
     if (task) {
-      tasks[entry.taskId] = entry.recurring
-        ? { ...task, due: entry.prevDue }
-        : { ...task, completed: false, completedAt: null };
+      if (entry.recurring) {
+        // prevDue snapshots form a chain across this task's completions.
+        // Undoing an older entry must not rewind the live due date past newer
+        // completions — hand its snapshot to the next entry instead, so a
+        // full unwind still reaches the original date. Ordering comes from
+        // log position (append-only), which is total even when two
+        // completions share a timestamp.
+        const next = s.completionLog
+          .slice(entryIndex + 1)
+          .find((e) => e.taskId === entry.taskId && e.recurring);
+        if (next) {
+          completionLog = completionLog.map((e) =>
+            e.id === next.id ? { ...e, prevDue: entry.prevDue } : e,
+          );
+        } else {
+          tasks[entry.taskId] = { ...task, due: entry.prevDue };
+        }
+      } else {
+        tasks[entry.taskId] = { ...task, completed: false, completedAt: null };
+        for (const did of entry.cascadedTaskIds || []) {
+          if (tasks[did]) tasks[did] = { ...tasks[did], completed: false, completedAt: null };
+        }
+      }
     }
     set({
       tasks,
-      completionLog: s.completionLog.filter((e) => e.id !== entryId),
+      completionLog,
       game: { ...s.game, xp: applied.lifetimeXp, streak, days },
     });
   },
@@ -360,7 +407,8 @@ export const useStore = create((set, get) => ({
   // ---- labels ----
   addLabel(rawName, color) {
     const s = get();
-    const name = rawName.trim().replace(/^@/, '').replace(/\s+/g, '').toLowerCase();
+    // Filter-query operators in a name would make '@name' unmatchable
+    const name = rawName.trim().replace(/[\s&|()!#@]/g, '').toLowerCase();
     if (!name) return null;
     const existing = Object.values(s.labels).find((l) => l.name === name);
     if (existing) return existing.id;
@@ -379,7 +427,7 @@ export const useStore = create((set, get) => ({
     const label = s.labels[labelId];
     if (!label) return;
     const next = { ...label, ...patch };
-    if (patch.name) next.name = patch.name.trim().replace(/^@/, '').replace(/\s+/g, '').toLowerCase();
+    if (patch.name) next.name = patch.name.trim().replace(/[\s&|()!#@]/g, '').toLowerCase();
     set({ labels: { ...s.labels, [labelId]: next } });
   },
 
@@ -434,6 +482,16 @@ export const useStore = create((set, get) => ({
 
   importState(doc) {
     const state = stateFromDoc(migrate(doc));
+    // Same guard loadState applies: an old backup's streak must not resurrect.
+    state.game.streak = reconcileStreak(state.game.streak, addDays(todayKey(), -1));
     set({ ...state, detailTaskId: null, toasts: [], levelUp: null });
+  },
+
+  // Called when the wall-clock day changes while the app stays open, so a
+  // streak broken overnight shows as broken without a reload.
+  reconcileDay() {
+    const s = get();
+    const streak = reconcileStreak(s.game.streak, addDays(todayKey(), -1));
+    if (streak !== s.game.streak) set({ game: { ...s.game, streak } });
   },
 }));

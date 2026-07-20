@@ -39,8 +39,15 @@ function Highlights({ value, tokens }) {
   );
 }
 
-function removeSpan(value, start, end) {
-  return (value.slice(0, start) + value.slice(end)).replace(/\s{2,}/g, ' ').trimStart();
+// Remove each span individually (right to left, so indices stay valid) —
+// a single first-start..last-end cut would also delete user text sitting
+// between disjoint due spans ('Pay every month rent at 9am').
+function removeSpans(value, spans) {
+  let out = value;
+  for (const s of [...spans].sort((a, b) => b.start - a.start)) {
+    out = out.slice(0, s.start) + out.slice(s.end);
+  }
+  return out.replace(/\s{2,}/g, ' ').trimStart();
 }
 
 export default function QuickAdd() {
@@ -84,7 +91,9 @@ function QuickAddModal({ ctx }) {
     addTask({
       title: parse.title,
       projectId,
-      sectionId: parse.projectId ? null : (ctx.sectionId ?? null),
+      // The context section only makes sense while the task stays in the
+      // context project — a #token or dropdown override must drop it.
+      sectionId: projectId === ctx.projectId ? (ctx.sectionId ?? null) : null,
       parentId: ctx.parentId ?? null,
       labelIds,
       priority: parse.priority ?? 4,
@@ -134,7 +143,7 @@ function QuickAddModal({ ctx }) {
                   type="button"
                   className="chip-x"
                   aria-label="Remove date"
-                  onClick={() => setValue(removeSpan(value, dueTokens[0].start, dueTokens[dueTokens.length - 1].end))}
+                  onClick={() => setValue(removeSpans(value, dueTokens))}
                 >
                   <XIcon size={10} />
                 </button>

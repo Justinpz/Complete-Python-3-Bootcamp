@@ -10,7 +10,7 @@ import {
 } from '@dnd-kit/core';
 import { useStore } from '../store/store.js';
 import { tasksInGroup, sectionsOf } from '../store/selectors.js';
-import TaskList, { AddTaskButton } from '../components/TaskList.jsx';
+import TaskList from '../components/TaskList.jsx';
 import { IconButton } from '../components/Panel.jsx';
 import { ChevronIcon, PencilIcon, PlusIcon, TrashIcon } from '../components/icons.jsx';
 import { navigate } from '../lib/router.js';

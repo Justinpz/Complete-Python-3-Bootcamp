@@ -69,6 +69,13 @@ export function sortedFilters(filters) {
   return Object.values(filters).sort(byOrder);
 }
 
+// Group a flat task list by project, in sidebar project order.
+export function groupByProject(list, projectsMap) {
+  return sortedProjects(projectsMap)
+    .map((project) => ({ project, tasks: list.filter((t) => t.projectId === project.id) }))
+    .filter((g) => g.tasks.length > 0);
+}
+
 export function tasksWithLabel(tasks, labelId) {
   return activeTasks(tasks)
     .filter((t) => t.labelIds.includes(labelId))

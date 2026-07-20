@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useStore } from '../store/store.js';
-import { runFilter } from '../store/selectors.js';
+import { runFilter, groupByProject } from '../store/selectors.js';
 import { parseFilter } from '../lib/filterQuery.js';
 import TaskList from '../components/TaskList.jsx';
 import { SectionTitle, IconButton, SkewButton } from '../components/Panel.jsx';
 import { PencilIcon, TrashIcon } from '../components/icons.jsx';
-import { groupByProject } from './LabelView.jsx';
 import { navigate } from '../lib/router.js';
 
 function FilterEditor({ filter, onClose }) {

@@ -1,17 +1,9 @@
 import { useMemo } from 'react';
 import { useStore } from '../store/store.js';
-import { tasksWithLabel, sortedProjects } from '../store/selectors.js';
+import { tasksWithLabel, groupByProject } from '../store/selectors.js';
 import TaskList from '../components/TaskList.jsx';
 import { SectionTitle } from '../components/Panel.jsx';
 import { navigate } from '../lib/router.js';
-
-// Group a flat task list by project, in sidebar project order.
-export function groupByProject(list, projectsMap) {
-  const projects = sortedProjects(projectsMap);
-  return projects
-    .map((project) => ({ project, tasks: list.filter((t) => t.projectId === project.id) }))
-    .filter((g) => g.tasks.length > 0);
-}
 
 export default function LabelView({ labelId }) {
   const label = useStore((s) => s.labels[labelId]);

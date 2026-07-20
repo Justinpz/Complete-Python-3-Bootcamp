@@ -67,10 +67,11 @@ export function stateFromDoc(doc) {
 }
 
 export function loadState(storage) {
-  const store = storage || window.localStorage;
+  // window guard keeps the store importable under vitest's node environment
+  const store = storage || (typeof window !== 'undefined' ? window.localStorage : null);
   let doc = null;
   try {
-    const raw = store.getItem(STORAGE_KEY);
+    const raw = store?.getItem(STORAGE_KEY);
     if (raw) doc = migrate(JSON.parse(raw));
   } catch {
     doc = null;
@@ -81,15 +82,22 @@ export function loadState(storage) {
 }
 
 let saveTimer = null;
+let saveFailed = false;
 
 export function initPersistence(store, storage) {
   const backing = storage || window.localStorage;
   const save = () => {
     try {
       backing.setItem(STORAGE_KEY, JSON.stringify(serialize(store.getState())));
+      saveFailed = false;
     } catch (err) {
       console.error('Persisting state failed', err);
-      store.getState().pushToast({ kind: 'error', text: 'Saving failed — is storage full?' });
+      // Toast once per failure streak: the toast itself changes state, which
+      // schedules another save — repeating the toast would loop forever.
+      if (!saveFailed) {
+        saveFailed = true;
+        store.getState().pushToast({ kind: 'error', text: 'Saving failed — is storage full?' });
+      }
     }
   };
   const debounced = () => {

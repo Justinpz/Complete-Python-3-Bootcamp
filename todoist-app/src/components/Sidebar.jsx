@@ -73,7 +73,15 @@ function SortableProjectRow({ project, count, active, onNav }) {
     >
       <NavItem active={active} onClick={onNav} label={project.name} badge={count} color={project.color} />
       <span className="nav-row-actions">
-        <button type="button" className="icon-btn" aria-label={`Rename ${project.name}`} onClick={() => setEditing(true)}>
+        <button
+          type="button"
+          className="icon-btn"
+          aria-label={`Rename ${project.name}`}
+          onClick={() => {
+            setName(project.name);
+            setEditing(true);
+          }}
+        >
           <PencilIcon size={12} />
         </button>
         <button

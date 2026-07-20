@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from './store/store.js';
 import { useHashRoute, navigate } from './lib/router.js';
+import { todayKey } from './lib/dates.js';
 import Sidebar from './components/Sidebar.jsx';
 import QuickAdd from './components/QuickAdd.jsx';
 import TaskDetail from './components/TaskDetail.jsx';
@@ -37,6 +38,20 @@ function View({ route }) {
 export default function App() {
   const route = useHashRoute();
   const setQuickAddOpen = useStore((s) => s.setQuickAddOpen);
+  const [day, setDay] = useState(todayKey);
+
+  // Re-render when the wall-clock day changes while the app stays open, so
+  // Today/Upcoming and due chips do not go stale at midnight.
+  useEffect(() => {
+    const iv = setInterval(() => {
+      const now = todayKey();
+      if (now !== day) {
+        useStore.getState().reconcileDay();
+        setDay(now);
+      }
+    }, 60_000);
+    return () => clearInterval(iv);
+  }, [day]);
 
   // Global shortcuts: q = quick add, t = today, u = upcoming (ignored while typing).
   useEffect(() => {
@@ -45,6 +60,8 @@ export default function App() {
       const tag = document.activeElement?.tagName || '';
       if (/INPUT|TEXTAREA|SELECT/.test(tag)) return;
       if (e.key === 'q') {
+        // With the detail modal open this would stack a hidden second modal
+        if (useStore.getState().detailTaskId) return;
         e.preventDefault();
         setQuickAddOpen({});
       } else if (e.key === 't') {
@@ -62,7 +79,7 @@ export default function App() {
   return (
     <div className="app">
       <Sidebar />
-      <main className="main" key={`${route.name}:${route.param || ''}`}>
+      <main className="main" key={`${route.name}:${route.param || ''}:${day}`}>
         <View route={route} />
       </main>
       <QuickAdd />

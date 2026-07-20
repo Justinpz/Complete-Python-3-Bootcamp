@@ -117,17 +117,18 @@ describe('parseWhen: recurrence rules', () => {
     expect(r.time).toBe('06:00');
   });
 
-  it('explicit start date replaces the computed first occurrence', () => {
+  it('explicit past start fixes the cadence but never creates an overdue task', () => {
     const r = parseWhen('every 2 weeks starting jul 1', { refDate: REF });
     expect(r.recurrence).toEqual(rule('weekly', { interval: 2 }));
-    expect(r.date).toBe('2026-07-01');
+    // cadence jul 1 / 15 / 29 — first occurrence on/after ref (jul 15)
+    expect(r.date).toBe('2026-07-15');
     expect(r.cleanedText).toBe('');
     expect(r.dueText).toBe('every 2 weeks starting jul 1');
   });
 
   it('bare start date after the rule works too', () => {
     const r = parseWhen('gym every 2 weeks jul 1', { refDate: REF });
-    expect(r.date).toBe('2026-07-01');
+    expect(r.date).toBe('2026-07-15');
     expect(r.cleanedText).toBe('gym');
   });
 

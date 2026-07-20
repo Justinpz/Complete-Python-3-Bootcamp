@@ -80,8 +80,9 @@ describe('parseQuickAdd', () => {
       byMonthDay: null,
       fromCompletion: false,
     });
-    expect(r.due.date).toBe('2026-07-01');
-    expect(r.due.anchor).toBe('2026-07-01');
+    // past start advances onto the cadence (jul 1 / 15 / 29) at ref jul 15
+    expect(r.due.date).toBe('2026-07-15');
+    expect(r.due.anchor).toBe('2026-07-15');
     expect(r.due.text).toBe('every 2 weeks starting jul 1');
   });
 

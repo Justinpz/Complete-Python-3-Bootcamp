@@ -151,7 +151,6 @@ describe('completionAward', () => {
   });
 
   const D = '2026-07-20';
-  const EARLY = '2026-07-19';
   const LATE_DUE = '2026-07-10'; // completing on D is late
   // [priority, dueDate, streakDays, expected]
   const cases = [

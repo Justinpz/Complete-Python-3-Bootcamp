@@ -43,7 +43,10 @@ export function parseQuickAdd(text, { projects = [], labels = [], refDate } = {}
     } else {
       const name = tok.slice(1).toLowerCase();
       const hit = labels.find((l) => l.name.toLowerCase() === name);
-      outLabels.push({ name, known: !!hit, id: hit ? hit.id : null });
+      // '@home … @home' twice would otherwise become duplicate label chips/ids
+      if (!outLabels.some((l) => l.name === name)) {
+        outLabels.push({ name, known: !!hit, id: hit ? hit.id : null });
+      }
       removeRanges.push({ start, end });
       tokens.push({ type: 'label', start, end, text: tok, valid: true });
     }

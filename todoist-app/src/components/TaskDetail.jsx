@@ -187,7 +187,9 @@ function TaskDetailModal({ task }) {
                   </option>
                 ))}
               </select>
-              {sections.length > 0 && (
+              {/* Subtasks always follow their parent's section — the store
+                  normalizes it, so offering the control would be a no-op. */}
+              {sections.length > 0 && !task.parentId && (
                 <select
                   className="select"
                   value={task.sectionId ?? ''}

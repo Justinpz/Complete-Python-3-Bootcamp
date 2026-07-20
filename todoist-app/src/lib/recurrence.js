@@ -14,9 +14,16 @@ function sortedByDay(byDay) {
   return [...byDay].sort((a, b) => a - b);
 }
 
+// Rules from old backups or hand-edited storage may carry interval 0 or
+// garbage; a non-positive step would loop forever or produce NaN dates.
+function safeInterval(rule) {
+  const n = Math.round(Number(rule.interval));
+  return n >= 1 ? n : 1;
+}
+
 // First date strictly after afterKey on the rule's cadence anchored at anchorKey.
 export function nextOccurrence(rule, anchorKey, afterKey) {
-  const interval = rule.interval;
+  const interval = safeInterval(rule);
 
   if (rule.freq === 'daily' || (rule.freq === 'weekly' && !(rule.byDay && rule.byDay.length))) {
     const step = rule.freq === 'daily' ? interval : 7 * interval;
@@ -68,18 +75,19 @@ export function nextOccurrence(rule, anchorKey, afterKey) {
 // First cadence date >= fromKey when the rule is anchored AT fromKey.
 // Used when creating a task from a phrase like 'every monday'.
 export function firstOccurrence(rule, fromKey) {
+  const interval = safeInterval(rule);
   if (rule.freq === 'weekly' && rule.byDay && rule.byDay.length) {
     const days = sortedByDay(rule.byDay);
     const wd = weekdayOf(fromKey);
     const hit = days.find((d) => d >= wd);
     if (hit !== undefined) return addDays(fromKey, hit - wd);
     // no byDay left this week: earliest byDay in the next aligned week
-    return addDays(fromKey, -wd + 7 * rule.interval + days[0]);
+    return addDays(fromKey, -wd + 7 * interval + days[0]);
   }
   if (rule.freq === 'monthly' && rule.byMonthDay != null) {
     const { y, m } = parts(fromKey);
     const cand = clampedKey(y, m, rule.byMonthDay);
-    return cand >= fromKey ? cand : clampedKey(y, m + rule.interval, rule.byMonthDay);
+    return cand >= fromKey ? cand : clampedKey(y, m + interval, rule.byMonthDay);
   }
   return fromKey;
 }
