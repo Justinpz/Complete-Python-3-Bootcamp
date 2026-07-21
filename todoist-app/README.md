@@ -52,6 +52,24 @@ The e2e script expects a Chromium binary (defaults to the Playwright cache at
 | `1`–`4` | Set priority (in task detail) |
 | `Esc` | Close modal |
 
+## Deploying to the LEVELED service
+
+The app ships on the same Render service as the LEVELED fitness app, served by its
+Express backend at `/tasks`. That service never builds frontends — it serves whatever
+is committed in `LEVELED/backend/public/`, so deploys are build-and-commit:
+
+```bash
+# in this folder
+npm ci && npm run build:leveled          # vite build --base=/tasks/
+rm -rf ../../LEVELED/backend/public/tasks
+cp -r dist ../../LEVELED/backend/public/tasks
+# commit backend/public/tasks in the LEVELED repo; Render auto-deploys on merge
+```
+
+The `/tasks` static mount + SPA fallback live in `LEVELED/backend/src/server.js`.
+When re-exporting the LEVELED game's web bundle, follow `backend/DEPLOY.md` — its copy
+step is written to preserve `public/tasks/`.
+
 ## Architecture
 
 Plain-JS React 19 + Vite. State in one [zustand](https://github.com/pmndrs/zustand)
