@@ -1,0 +1,20 @@
+# Netlify deploy for todoist-app/ (LEVELED Tasks).
+# Netlify resolves every path here relative to `base`, so `publish` is
+# "dist" — writing "todoist-app/dist" would resolve to todoist-app/todoist-app/dist.
+
+[build]
+  base = "todoist-app"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Vite 8 requires ^20.19 || >=22.12; pinned so a change to Netlify's
+  # default image can't break the build.
+  NODE_VERSION = "22"
+
+# The app uses hash routing, so this only catches stray paths — serve the
+# app rather than Netlify's 404 page.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

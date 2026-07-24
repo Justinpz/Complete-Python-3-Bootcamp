@@ -561,6 +561,7 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 10px;
   margin-bottom: 4px;
 }
 
@@ -1625,15 +1626,22 @@ button.chip:hover {
   gap: 12px;
 }
 
-/* ---------- responsive ---------- */
+/* ---------- responsive ----------
+   Drawer/scrim/toggle sit below .modal-scrim (40) so quick-add and the task
+   detail always overlay the navigation. */
 
-@media (max-width: 860px) {
+.nav-toggle,
+.nav-scrim {
+  display: none;
+}
+
+@media (max-width: 900px) {
   .app {
-    grid-template-columns: 230px minmax(0, 1fr);
+    grid-template-columns: 240px minmax(0, 1fr);
   }
 
   .main {
-    padding: 18px 16px 100px;
+    padding: 20px 20px 100px;
   }
 
   .stats-grid {
@@ -1643,5 +1651,143 @@ button.chip:hover {
   .stats-hero {
     flex-direction: column;
     gap: 12px;
+  }
+}
+
+/* Phone: the sidebar becomes an off-canvas drawer so the task list gets the
+   full width. .nav-open is set by App.jsx. */
+@media (max-width: 720px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(300px, 86vw);
+    z-index: 30;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    box-shadow: 0 0 40px rgba(7, 10, 20, 0.6);
+  }
+
+  .app.nav-open .sidebar {
+    transform: none;
+  }
+
+  /* clear the fixed toggle button sitting over the drawer's top-left */
+  .side-brand {
+    padding-left: 44px;
+  }
+
+  .nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    background: var(--glass-deep);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .app.nav-open .nav-scrim {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 35;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    background: var(--glass-strong);
+    color: var(--accent);
+  }
+
+  .main {
+    padding: 62px 14px 90px;
+  }
+
+  .view-head {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-left: 52px;
+    min-height: 40px;
+  }
+
+  .view-head h1 {
+    font-size: 28px;
+  }
+
+  .view-sub {
+    padding-bottom: 0;
+  }
+
+  /* Touch targets and layouts that assume a wide column */
+  .task-row {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .task-grip {
+    display: none;
+  }
+
+  .modal-scrim {
+    padding: 8vh 12px 12px;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-move,
+  .quickadd-foot,
+  .stats-data-actions,
+  .datepicker-input-row {
+    flex-wrap: wrap;
+  }
+
+  .quickadd-hint {
+    order: 3;
+    flex-basis: 100%;
+    text-align: left;
+  }
+
+  .stats-streak-row {
+    flex-wrap: wrap;
+  }
+
+  .heatmap {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .toast-stack {
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+  }
+
+  .toast {
+    min-width: 0;
+  }
+
+  .levelup-card {
+    padding: 32px 40px;
+  }
+
+  .levelup-number {
+    font-size: 88px;
   }
 }

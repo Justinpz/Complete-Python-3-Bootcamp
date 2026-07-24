@@ -52,6 +52,12 @@ The e2e script expects a Chromium binary (defaults to the Playwright cache at
 | `1`–`4` | Set priority (in task detail) |
 | `Esc` | Close modal |
 
+## Deploying to Netlify
+
+`netlify.toml` at the repo root has the build settings, so importing this repo in
+Netlify needs no manual configuration — it builds `todoist-app/` and publishes
+`todoist-app/dist`. Every push to `master` redeploys.
+
 ## Deploying to the LEVELED service
 
 The app ships on the same Render service as the LEVELED fitness app, served by its
