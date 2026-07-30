@@ -42,11 +42,32 @@ The e2e script expects a Chromium binary (defaults to the Playwright cache at
   multipliers ×1.1/×1.25/×1.5), 100 levels, daily-goal ring, 12-week heatmap,
   level-up moments.
 
+## Brain dump (voice → tasks)
+
+Press `v`, talk, and the app turns the ramble into a task list you review before
+anything is added. Speech capture uses the browser's built-in recognition — no key, no
+upload, works on a phone (Chrome and Safari; Firefox has no speech API, so type instead).
+
+Two levels of synthesis, chosen automatically:
+
+- **On-device** (always available, free): splits the monologue on spoken connectives
+  ("and also", "then I need to"), strips filler and lead-ins, and runs each thought
+  through the quick-add parser, so dates, priorities and labels still land. Urgency
+  words ("urgent", "asap") become P1; "someday"/"eventually" become P4.
+- **Claude** (when `ANTHROPIC_API_KEY` is set): merges restatements, splits compound
+  thoughts, rewrites titles as clean actions, and resolves dates against today.
+
+To enable the Claude path on Netlify: **Site configuration → Environment variables** →
+add `ANTHROPIC_API_KEY` (and optionally `ANTHROPIC_MODEL`), then redeploy. Without it the
+function returns 503 and the app silently uses the on-device path — the UI says which one
+produced the list. Nothing is ever added without your confirmation.
+
 ## Keyboard
 
 | Key | Action |
 | --- | --- |
 | `q` | Quick add |
+| `v` | Brain dump (voice) |
 | `t` | Today |
 | `u` | Upcoming |
 | `1`–`4` | Set priority (in task detail) |

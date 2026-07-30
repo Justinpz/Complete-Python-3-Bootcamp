@@ -5,6 +5,7 @@ import { todayKey } from './lib/dates.js';
 import { MenuIcon, XIcon } from './components/icons.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import QuickAdd from './components/QuickAdd.jsx';
+import VoiceNote from './components/VoiceNote.jsx';
 import TaskDetail from './components/TaskDetail.jsx';
 import Toasts from './components/Toast.jsx';
 import LevelUpOverlay from './components/LevelUpOverlay.jsx';
@@ -75,6 +76,11 @@ export default function App() {
         if (useStore.getState().detailTaskId) return;
         e.preventDefault();
         setQuickAddOpen({});
+      } else if (e.key === 'v') {
+        const s = useStore.getState();
+        if (s.detailTaskId || s.quickAddOpen) return;
+        e.preventDefault();
+        s.setVoiceOpen(true);
       } else if (e.key === 't') {
         e.preventDefault();
         navigate('today');
@@ -104,6 +110,7 @@ export default function App() {
         <View route={route} />
       </main>
       <QuickAdd />
+      <VoiceNote />
       <TaskDetail />
       <LevelUpOverlay />
       <Toasts />

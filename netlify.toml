@@ -6,6 +6,8 @@
   base = "todoist-app"
   command = "npm run build"
   publish = "dist"
+  # relative to base, like every other path here
+  functions = "netlify/functions"
 
 [build.environment]
   # Vite 8 requires ^20.19 || >=22.12; pinned so a change to Netlify's
