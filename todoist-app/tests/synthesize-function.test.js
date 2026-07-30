@@ -1,8 +1,12 @@
 // Exercises the function's contract without calling Anthropic. The paths that
 // matter here are the ones the client depends on: 503 (no key) must not throw,
 // because that is what triggers the on-device fallback.
+//
+// Lives here rather than beside the function: Netlify bundles every file in
+// the functions directory as its own function, so a test importing vitest
+// there fails the deploy.
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import handler from './synthesize.js';
+import handler from '../netlify/functions/synthesize.js';
 
 const req = (body, method = 'POST') =>
   new Request('https://example.test/.netlify/functions/synthesize', {
