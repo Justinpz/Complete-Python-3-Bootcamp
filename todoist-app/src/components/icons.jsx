@@ -123,6 +123,32 @@ export const GripIcon = (p) => (
   </Icon>
 );
 
+export const MicIcon = (p) => (
+  <Icon {...p}>
+    <rect x="9" y="2" width="6" height="12" rx="3" />
+    <path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8" />
+  </Icon>
+);
+
+export const StopIcon = (p) => (
+  <Icon {...p}>
+    <rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" />
+  </Icon>
+);
+
+export const SparkIcon = (p) => (
+  <Icon {...p}>
+    <path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z" />
+    <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z" />
+  </Icon>
+);
+
+export const MenuIcon = (p) => (
+  <Icon {...p}>
+    <path d="M3 6h18M3 12h18M3 18h18" />
+  </Icon>
+);
+
 export const DownloadIcon = (p) => (
   <Icon {...p}>
     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />

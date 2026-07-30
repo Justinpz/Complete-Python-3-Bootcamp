@@ -1,0 +1,4 @@
+# Running npm/npx from the repo root (instead of inside todoist-app) drops a
+# stray install here; nothing at this level is a Node project.
+node_modules/
+.DS_Store

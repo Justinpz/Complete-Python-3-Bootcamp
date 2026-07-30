@@ -20,6 +20,7 @@ import {
   FunnelIcon,
   TrashIcon,
   PencilIcon,
+  MicIcon,
 } from './icons.jsx';
 
 function NavItem({ active, onClick, icon, label, badge, color }) {
@@ -208,6 +209,7 @@ export default function Sidebar() {
   const deleteFilter = useStore((s) => s.deleteFilter);
   const reorderProject = useStore((s) => s.reorderProject);
   const setQuickAddOpen = useStore((s) => s.setQuickAddOpen);
+  const setVoiceOpen = useStore((s) => s.setVoiceOpen);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
@@ -247,6 +249,12 @@ export default function Sidebar() {
         <PlusIcon size={15} />
         <span>ADD TASK</span>
         <kbd>Q</kbd>
+      </button>
+
+      <button type="button" className="side-voice" onClick={() => setVoiceOpen(true)}>
+        <MicIcon size={15} />
+        <span>BRAIN DUMP</span>
+        <kbd>V</kbd>
       </button>
 
       <nav className="side-nav">

@@ -77,6 +77,7 @@ export const useStore = create((set, get) => ({
   levelUp: null,
   detailTaskId: null,
   quickAddOpen: false,
+  voiceOpen: false,
 
   pushToast(toast) {
     const t = { id: id(), ...toast };
@@ -97,6 +98,9 @@ export const useStore = create((set, get) => ({
   },
   setQuickAddOpen(open) {
     set({ quickAddOpen: open });
+  },
+  setVoiceOpen(open) {
+    set({ voiceOpen: open });
   },
 
   // ---- tasks ----
