@@ -1,0 +1,86 @@
+# Core content pillars for the Substack.
+# Each post picks the least-recently-covered pillar (see post_log.json),
+# then a fresh angle within it. Add/edit angles freely over time.
+
+publication:
+  name: "Evidence-Based Recovery"
+  one_liner: >
+    No-fluff, peer-reviewed guidance on post-injury recovery for people who
+    want honest answers beyond what clinicians have time to explain.
+
+pillars:
+  - id: tendon-biology
+    name: "Tendon repair biology"
+    angles:
+      - "The three healing phases (inflammation, proliferation, remodeling) explained"
+      - "Mechanotransduction: how load signals cells to rebuild tendon"
+      - "Why a tendon that feels fine at 6 weeks is still structurally immature"
+      - "Collagen type I vs type III and what the crosslinking ratio means for strength"
+      - "What scar-mediated healing means for re-injury risk"
+
+  - id: age-and-recovery
+    name: "Age and recovery capacity"
+    angles:
+      - "How tenocyte activity and healing capacity shift decade by decade"
+      - "What slower remodeling in older adults means for protocol timing"
+      - "Sarcopenia, tendon stiffness, and the recovery knock-on effects"
+      - "Why the same protocol produces different outcomes at 30 vs 60"
+
+  - id: prp-therapy
+    name: "PRP therapy"
+    angles:
+      - "What the RCTs actually show for PRP in tendinopathy"
+      - "Leukocyte-rich vs leukocyte-poor PRP and why the distinction matters"
+      - "Where PRP has signal (and where the evidence is thin)"
+      - "How preparation variability undermines comparing PRP studies"
+
+  - id: photobiomodulation
+    name: "Photobiomodulation / red light"
+    angles:
+      - "What photobiomodulation does at the mitochondrial level — and the dose problem"
+      - "Clinical evidence vs marketing claims for red light and tendon healing"
+      - "Wavelength, irradiance, and why most consumer devices under-dose"
+
+  - id: nutrition
+    name: "Nutrition for tendon healing"
+    angles:
+      - "Collagen + vitamin C timing: the nutrition finding with real evidence"
+      - "Leucine, protein threshold, and tendon collagen synthesis"
+      - "Amino acid delivery windows around loading sessions"
+      - "Which 'recovery' supplements have human data and which don't"
+
+  - id: timelines
+    name: "Realistic recovery timelines"
+    angles:
+      - "Evidence-grounded milestones vs generic return-to-activity estimates"
+      - "Why tissue healing and functional readiness aren't the same clock"
+      - "Decade-by-decade timeline expectations for common tendon injuries"
+
+  - id: protocol-gaps
+    name: "Why standard protocols miss"
+    angles:
+      - "Under-loading: the most common reason rehab stalls"
+      - "Why generic timelines ignore individual healing variance"
+      - "What actually moves outcomes vs what's protocol theater"
+
+  - id: adjuncts
+    name: "Evaluating recovery adjuncts"
+    angles:
+      - "IV therapy for recovery: what's backed and what's hydration theater"
+      - "Injections beyond PRP (corticosteroid, hyaluronic acid) — the trade-offs"
+      - "A framework for judging any recovery adjunct's evidence quality"
+
+  - id: psychology
+    name: "Psychology of recovery"
+    angles:
+      - "Why adherence, not the protocol, often decides the outcome"
+      - "Pain catastrophizing and kinesiophobia in recovery"
+      - "Mindset, expectation effects, and measurable healing"
+
+  - id: myths
+    name: "Myth-busting through research"
+    angles:
+      - "'No pain, no gain' in tendon rehab — what the science says"
+      - "RICE: what's held up and what's been revised"
+      - "'Rest it completely' — why total rest often backfires for tendons"
+      - "Common recovery myths debunked with citations"
