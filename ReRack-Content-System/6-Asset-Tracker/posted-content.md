@@ -19,7 +19,7 @@
 
 | Post Date | Time (EST) | Pillar | Format | Asset ID | Prompt ID | Caption ID | Hook ID | Permalink | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| 2026-06-08 | 6:00 AM | The Standard | Image | RR-20260608-001 | STD-04 | CAP-012 | — | _url_ | _example row — replace_ |
+| 2026-06-03 | — | The Standard | Image | RR-20260603-001 | STD-01 | CAP-003 | — | https://www.instagram.com/p/DZIiXIxCjTg/ | First live post. Quote-overlay render (STD-01_quote.png), "Motivation is a guest. Discipline lives here." |
 | | | | | | | | | | |
 
 <!-- Append new posts above. -->

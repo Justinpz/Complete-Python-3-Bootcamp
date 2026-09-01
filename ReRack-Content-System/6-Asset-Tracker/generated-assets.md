@@ -20,8 +20,15 @@
 
 | Asset ID | Date Generated | Pillar | Type | Prompt Ref | Soul | Status | Posted? | Notes |
 |---|---|---|---|---|---|---|---|---|
-| RR-20260608-001 | 2026-06-08 | The Standard | Image | STD-04 | n/a | Draft | No | _example row — replace_ |
-| | | | | | | | | |
+| RR-20260609-ATLAS | 2026-06-09 | (model) | Reference portrait (4:5, 2k) | ATLAS spec | ATLAS_RR_001 | Reference | n/a | Locked ATLAS face reference, generated from model-specifications.md. Higgsfield nano_banana_pro · job d74fe507 · export ATLAS_reference.png · REUSE as image reference (medias) in all Uniform/Work generations for face consistency |
+| RR-20260609-002 | 2026-06-09 | The Uniform | Image (4:5, 2k) | UNI-02 | ATLAS_RR_001 | Approved | No | Day 7. ATLAS in black ReRack tee, three-quarter lean on rack. nano_banana_pro w/ ATLAS face ref (d74fe507) · job c25d0aeb · export UNI-02.png · caption CAP-009 · logo is a close recreation (swap to exact match if a product URL is provided) |
+| RR-20260611-003 | 2026-06-11 | The Uniform | Image (4:5, 2k) | UNI-03 | ATLAS_RR_001 | Approved (logo-fixed) | No | Day 9 (6/16). ATLAS arms-crossed, BONE colorway. Final = exact-logo edit: real Apex Rail RR logo uploaded (media 978215dc) and composited via nano_banana_pro image-to-image (base job 23f4ac0a + logo ref) → job a9c90a89 · export UNI-03_logofix.png · caption CAP-010. METHOD for all product shots: feed the real logo file as a reference, don't describe it. |
+| RR-20260603-001 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-01 | n/a | Posted | Yes (2026-06-03) | Concrete wall, golden shaft. Higgsfield nano_banana_pro · clean job 3645cc3f · quote-overlay job e48325a1 (CAP-003 hero line burned in) · LIVE: instagram.com/p/DZIiXIxCjTg/ |
+| RR-20260603-002 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-02 | n/a | Approved | No | Light pool on rubber floor. clean job bc1a3b63 · quote-overlay job 547e08b1 ("Standards beat feelings." / CAP-006 burned in) · exports STD-02_clean.png / STD-02_quote.png · ready to post |
+| RR-20260603-003 | 2026-06-03 | The Standard | Image (9:16, 2k) | STD-03 | n/a | Approved | No | Brutalist stairwell, STORY format. clean job bcfa1395 · quote-overlay job 9d4138ad ("Become hard to kill." / CAP-007 burned in) · exports STD-03_clean.png / STD-03_quote.png · post as a Story |
+| RR-20260603-004 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-04 | ATLAS (small) | Approved | No | Lone figure in concrete hall. clean job 1812e851 · quote-overlay job f37c4b90 (CAP-001 "You don't rise to your goals. You fall to your standards." burned in upper-left; first overlay attempt 152b2b45 duplicated a line, re-rolled) · exports STD-04_clean.png / STD-04_quote.png · ready to post |
+| RR-20260603-005 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-05 | n/a | Approved | No | Chalk dust in tungsten beam. clean job e7e5ffa2 · quote-overlay job 7925f209 (CAP-005 "Confidence is a receipt." burned in left void) · exports STD-05_clean.png / STD-05_quote.png · ready to post |
+| RR-20260603-006 | 2026-06-03 | The Standard | Image (4:5, 2k) | STD-06 | n/a | Approved | No | Pre-dawn bench, blue hour. clean job c27e8232 · quote-overlay job 7f855fb3 (CAP-002 "Identity is forged, not felt." burned in upper-left) · exports STD-06_clean.png / STD-06_quote.png · ready to post |
 
 <!-- Append new rows above this line. Keep newest at top of the data block if you prefer reverse-chronological. -->
 

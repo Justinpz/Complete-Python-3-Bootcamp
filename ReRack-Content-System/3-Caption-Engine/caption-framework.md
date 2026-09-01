@@ -34,7 +34,7 @@ Line 3:  Brand stamp (FORGED DAILY.) OR a product-reference close
 - **Punctuation:** periods and the occasional em dash. No exclamation points. No ellipses for drama.
 - **Capitalization:** sentence case in body; `FORGED DAILY.` and SKU labels (`CYCLE 001`) in caps.
 - **Emojis:** none. Ever.
-- **Hashtags:** optional, max 3, lowercase, own line, brand/relevant only.
+- **Hashtags (traction policy):** 3 brand tags (`#forgeddaily #rerack #cycle001`) **+ 2 rotating high-traffic/trending tags** relevant to discipline, men's fitness, or tactical-minimal apparel = **5 total**, lowercase, own line. Rotate the 2 trending tags each post (don't reuse the same block every time — Instagram suppresses repetition). Prefer placing the full block in the **first comment** to keep the caption clean. Never off-brand or spammy.
 - **Length:** as short as possible. Every word earns its place.
 
 ---
